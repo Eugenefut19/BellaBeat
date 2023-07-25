@@ -211,7 +211,7 @@ z=t %>%
 z$Id <- as.numeric(factor(z$Id))
 z
 ```
-![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/29ba6cbd-a864-4d7e-a09b-384d961be588)
+
 
 ```{r}
 z %>% 
@@ -224,7 +224,7 @@ z %>%
 
 mean(z$mean_step_difference)
 ```
-![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/3021553b-2f68-4c2b-b853-8df88a60ba72)
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/29ba6cbd-a864-4d7e-a09b-384d961be588)
 
 ```{r}
 z %>% 
@@ -236,7 +236,7 @@ z %>%
   ylab("Mean Distance Difference in Miles")
 mean(z$mean_distance_difference)
 ```
-![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/408ec1af-12bb-4768-a7f7-39a855975a9e)
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/3021553b-2f68-4c2b-b853-8df88a60ba72)
 
 ```{r}
 z %>% 
@@ -248,3 +248,4 @@ z %>%
   ylab("Mean Calorie Difference")
 mean(z$mean_calorie_difference)
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/408ec1af-12bb-4768-a7f7-39a855975a9e)
