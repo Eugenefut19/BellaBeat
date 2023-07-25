@@ -16,19 +16,11 @@ library(lubridate)
 library(dplyr)
 ```
 
-#Reads in the CSV files
+#Reads in the CSV filews
 
 ```{r}
 daily_activity= read.csv("dailyActivity_merged.csv")
-hourly_calories= read.csv("hourlyCalories_merged.csv")
-hourly_intensities= read.csv("hourlyIntensities_merged.csv")
-hourly_steps= read.csv("hourlySteps_merged.csv")
-min_calories= read.csv("minuteCaloriesNarrow_merged.csv")
-wide_calories= read.csv("minuteCaloriesWide_merged.csv")
-narrow= read.csv("minuteMETsNarrow_merged.csv")
 sleep= read.csv("minuteSleep_merged.csv")
-steps_narrow= read.csv("minuteStepsNarrow_merged.csv")
-steps_wide= read.csv("minuteStepsWide_merged.csv")
 sleep_day= read.csv("sleepDay_merged.csv")
 weight= read.csv("weightLogInfo_merged.csv")
 heart_rate= read.csv("heartrate_seconds_merged.csv")
@@ -65,16 +57,18 @@ unique(weight$Id)
 
 #Summary Tables
 
-##sleep summary and converts to data frame
+##sleep summary and coverts to data frame
 
 ```{r}
 sl=sleep_day %>% 
-  select(TotalMinutesAsleep, TotalTimeInBed, TotalSleepRecords)
+  select(TotalMinutesAsleep, TotalTimeInBed)
 st=data.frame(unclass(summary(sl)), 
            check.names = F)
-summary(sl)
-#write.csv(st, file="sleep_summary.csv")
 
+boxplot(sl$TotalMinutesAsleep, ylab="Total Minutes")
+boxplot(sl$TotalTimeInBed, ylab="Totoal Minutes")
+#write.csv(st, file="sleep_summary.csv")
+summary(sl)
 ```
 
 ##Daily Activity Summary and coverts to data frame
@@ -86,9 +80,30 @@ p=daily_activity %>%
 df_a=data.frame(unclass(summary(p)),
            check.names = F)
 
+boxplot(p)
 summary(p)
+
 #write.csv(df_a, file="Daily_Activity_Summary.csv")
 ```
+
+```{r}
+boxplot(p$TotalSteps, ylab="Total Amount of Steps")
+boxplot(p$TotalDistance, ylab="Total Distance")
+boxplot(p$SedentaryMinutes, ylab="Sedentary Minutes")
+boxplot(p$Calories, ylab="Calories")
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Graphs Calories vs TotalSteps
 
@@ -96,9 +111,14 @@ summary(p)
 daily_activity %>% 
   ggplot(aes(x= TotalSteps, y= Calories))+
   geom_point()+
-  geom_smooth()
+  geom_smooth()+
+  ggtitle("Calories Burned vs TotalSteps")+
+  xlab("Total Steps")+
+  ylab("Calories Burned")
   
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/f2b19d53-28e1-4b1d-8680-5b36a5615863)
+
 
 **Shows that more step, more calories burned**
 
@@ -139,6 +159,7 @@ heart_daily %>%
   xlab("Mean Time of Sendatary in Min")+
   ylab("Mean Heart Rate")
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/80e58c18-d541-4095-af3b-7b5875e3bcce)
 
 #Joins Daily activity with weight
 
@@ -151,6 +172,7 @@ joined_weight %>%
   geom_point()+
   geom_smooth()
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/ce0017d3-5f1f-409b-a119-72d205c0007c)
 
 **Shows that people who had more steps had less fat.** \*\*Comparing kg and pound to total steps is not ideal as muscle weighs more than fat.\*
 
@@ -160,6 +182,7 @@ joined_weight %>%
   ggplot(aes(x=SedentaryMinutes, y=VeryActiveMinutes))+
   geom_point()
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/7309a3a7-a624-43b8-9d5b-d669071a70e3)
 
 #Changes Date Format
 
@@ -188,6 +211,7 @@ z=t %>%
 z$Id <- as.numeric(factor(z$Id))
 z
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/29ba6cbd-a864-4d7e-a09b-384d961be588)
 
 ```{r}
 z %>% 
@@ -200,6 +224,7 @@ z %>%
 
 mean(z$mean_step_difference)
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/3021553b-2f68-4c2b-b853-8df88a60ba72)
 
 ```{r}
 z %>% 
@@ -211,6 +236,7 @@ z %>%
   ylab("Mean Distance Difference in Miles")
 mean(z$mean_distance_difference)
 ```
+![image](https://github.com/Eugenefut19/BellaBeat/assets/134546229/408ec1af-12bb-4768-a7f7-39a855975a9e)
 
 ```{r}
 z %>% 
@@ -222,5 +248,3 @@ z %>%
   ylab("Mean Calorie Difference")
 mean(z$mean_calorie_difference)
 ```
-
-
